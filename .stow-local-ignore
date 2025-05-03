@@ -3,4 +3,6 @@ hardware-configuration.nix
 flake.nix
 flake.lock
 images
+.git
+.gitignore
 README.md
