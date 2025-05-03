@@ -65,16 +65,17 @@ alias code="code --ozone-platform=wayland"
 alias ya="yandex-browser --ozone-platform=wayland"
 alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama"
 alias cat='bat'
-alias fast='fastfetch'
+alias fast='kitten icat -n --align left ~/Downloads/frieren6.gif | fastfetch --raw -'
 alias zshrc='nvim ~/.zshrc'
 alias reload='source ~/.zshrc'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias ~='cd ~'
-alias nixcfg='cd /etc/nixos/'
-alias vinix='sudo nvim /etc/nixos/configuration.nix'
-
+alias vinix='sudo nvim /home/drama/dotfiles/configuration.nix'
+alias icat="kitten icat"
+alias lock="~/.config/scripts/lockscreen.sh"
+alias mur="appimage-run ~/Murglar.appimage"
 cpfile() {
   wl-copy < "$1"
 }
@@ -82,4 +83,3 @@ cpfile() {
 eval "$(starship init zsh)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
-

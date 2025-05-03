@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
@@ -45,14 +45,15 @@
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us,ru";
-    variant = "grp:alt_shift_toggle";
+    # variant = "grp:win_space_toggle";
+    options = "grp:win_space_toggle";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.drama = {
     isNormalUser = true;
     description = "drama";
-    extraGroups = [ "networkmanager" "wheel" "input"];
+    extraGroups = [ "networkmanager" "wheel" "input" "docker" "vboxusers"];
     packages = with pkgs; [];
   };
 
@@ -82,6 +83,10 @@
   };
   services.udisks2.enable = true;
   #services.resolved.enable = true;
+  services.flatpak.enable = true;
+  system.activationScripts.flatpakRepos.text = ''
+    ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  '';
 
   xdg.portal = {
     enable = true;
@@ -115,6 +120,36 @@
     liberation_ttf
   ];
 
+  virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableHardening = false;
+  users.extraGroups.vboxusers.members = [ "drama" ];
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+
+  boot.kernelModules = [ "vboxdrv" "vboxnetflt" "vboxnetadp" "vboxpci" ];
+
+  services.udev.extraRules = ''
+    KERNEL=="vboxdrv", GROUP="vboxusers", MODE="0660"
+    KERNEL=="vboxnetctl", GROUP="vboxusers", MODE="0660"
+    KERNEL=="vboxnetadp", GROUP="vboxusers", MODE="0660"
+    KERNEL=="vboxnetflt", GROUP="vboxusers", MODE="0660"
+  '';
+
+  
+  environment.variables = {
+    SHELL = "${pkgs.bashInteractive}/bin/bash";
+
+    OPENSSL_DIR = "${pkgs.openssl.dev}";
+    OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
+    OPENSSL_INCLUDE_DIR = "${pkgs.openssl.dev}/include";
+    PKG_CONFIG_PATH = lib.concatStringsSep ":" [
+      "${pkgs.openssl.dev}/lib/pkgconfig"
+      "${pkgs.gtk2.dev}/lib/pkgconfig"
+      "${pkgs.gtk2.out}/lib/pkgconfig"
+    ];
+  };
+
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -122,6 +157,7 @@
     hiddify-app
     #libappindicator-gtk3
     #gnomeExtensions.topicons-plus
+    bashInteractive
     xorg.xhost
     nekoray
     libnotify
@@ -197,13 +233,52 @@
     udiskie
     udisks2
     unzip
-    python312
-    python312Packages.ipykernel
-    python312Packages.pip
-    python312Packages.notebook
-    python312Packages.pandas
-    python312Packages.numpy
+    python310
+    python310Packages.ipykernel
+    python310Packages.pip
+    # python310Packages.notebook
+    python310Packages.virtualenv
+
+    # python310Packages.pandas
+    # python310Packages.numpy
+    # python310Packages.torch
+    # python310Packages.torchvision
     jupyter
+    awscli2
+    gcc
+    stdenv.cc.cc.lib
+    libGL
+    mesa
+    ngrok
+    python310Packages.conda
+    openssl
+    pkg-config
+    dive
+    wine
+    winetricks
+    virtualbox
+    code-cursor
+    lmms
+    nodejs_18
+    ffmpeg
+    gtk2
+    gdb
+
+    fftw
+    opencv
+    libpulseaudio
+    xorg.libX11
+    xorg.libXrandr
+    xorg.libXinerama
+    xorg.libXcursor
+    xorg.libXi
+    mesa.dev
+
+    ctop
+    gdb
+    modrinth-app
+    jdk21
+    imagemagick
 
     (flameshot.overrideAttrs (old: {
       cmakeFlags = old.cmakeFlags ++ ["-DUSE_WAYLAND_GRIM=ON"];

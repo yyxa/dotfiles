@@ -20,3 +20,5 @@ swaylock \
   --text-ver-color "$color3" \
   --text-wrong-color "$color1" \
   --fade-in 0.3
+
+# hyprctl dispatch dpms off

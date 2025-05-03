@@ -1,0 +1,12 @@
+[Default Applications]
+x-scheme-handler/tg=org.telegram.desktop.desktop
+x-scheme-handler/tonsite=org.telegram.desktop.desktop
+text/html=yandex-browser.desktop
+x-scheme-handler/http=yandex-browser.desktop
+x-scheme-handler/https=yandex-browser.desktop
+x-scheme-handler/about=yandex-browser.desktop
+x-scheme-handler/unknown=yandex-browser.desktop
+
+[Added Associations]
+x-scheme-handler/tg=org.telegram.desktop.desktop;
+x-scheme-handler/tonsite=org.telegram.desktop.desktop;
