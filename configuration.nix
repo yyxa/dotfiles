@@ -280,6 +280,9 @@
     jdk21
     imagemagick
 
+    # home-manager
+    stow
+
     (flameshot.overrideAttrs (old: {
       cmakeFlags = old.cmakeFlags ++ ["-DUSE_WAYLAND_GRIM=ON"];
     }))

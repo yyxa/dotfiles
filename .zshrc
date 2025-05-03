@@ -63,7 +63,10 @@ alias c='clear'
 alias obsi="obsidian --ozone-platform=wayland"
 alias code="code --ozone-platform=wayland"
 alias ya="yandex-browser --ozone-platform=wayland"
-alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama"
+
+alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama --impure"
+alias stow="stow -v -t ~ -d ~/dotfiles ."
+
 alias cat='bat'
 alias fast='kitten icat -n --align left ~/Downloads/frieren6.gif | fastfetch --raw -'
 alias zshrc='nvim ~/.zshrc'
