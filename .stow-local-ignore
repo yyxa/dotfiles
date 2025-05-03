@@ -2,4 +2,5 @@ configuration.nix
 hardware-configuration.nix
 flake.nix
 flake.lock
+images
 README.md
