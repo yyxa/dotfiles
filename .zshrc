@@ -68,7 +68,7 @@ alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama --impure
 alias gnu-stow="stow -v -t ~ -d ~/dotfiles ."
 
 alias cat='bat'
-alias fast='kitten icat -n --align left ~/Downloads/frieren6.gif | fastfetch --raw -'
+alias fast='kitten icat -n --align left ~/dotfiles/images/frieren_5_6_3.gif | fastfetch --raw -'
 alias zshrc='nvim ~/.zshrc'
 alias reload='source ~/.zshrc'
 alias ..='cd ..'
@@ -86,3 +86,8 @@ cpfile() {
 eval "$(starship init zsh)"
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
+
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^[[3;5~" kill-word
+bindkey "^H" backward-kill-word

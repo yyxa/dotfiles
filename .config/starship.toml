@@ -1,12 +1,13 @@
 scan_timeout = 10
 
 [character]
-success_symbol = "[>](bold green)"
-error_symbol = "[x](bold red)"
-vimcmd_symbol = "[<](bold green)"
+success_symbol = "[ʕ•ᴥ•ʔ](bold green)"
+error_symbol = "[ʕ•ᴥ•ʔ](bold red)"
+vimcmd_symbol = "[ʕ•ᴥ•ʔ](bold green)"
 
 [git_commit]
 tag_symbol = " tag "
+disabled = true
 
 [git_status]
 ahead = ">"
@@ -14,117 +15,155 @@ behind = "<"
 diverged = "<>"
 renamed = "r"
 deleted = "x"
+disabled = true
 
 [aws]
 symbol = "aws "
+disabled = true
 
 [azure]
 symbol = "az "
+disabled = true
 
 [bun]
 symbol = "bun "
+disabled = true
 
 [c]
 symbol = "C "
+disabled = true
 
 [cobol]
 symbol = "cobol "
+disabled = true
 
 [conda]
 symbol = "conda "
+disabled = true
 
 [crystal]
 symbol = "cr "
+disabled = true
 
 [cmake]
 symbol = "cmake "
+disabled = true
 
 [daml]
 symbol = "daml "
+disabled = true
 
 [dart]
 symbol = "dart "
+disabled = true
 
 [deno]
 symbol = "deno "
+disabled = true
 
 [dotnet]
 symbol = ".NET "
+disabled = true
 
 [directory]
 read_only = " ro"
+# disabled = true
 
 [docker_context]
 symbol = "docker "
+disabled = true
 
 [elixir]
 symbol = "exs "
+disabled = true
 
 [elm]
 symbol = "elm "
+disabled = true
 
 [fennel]
 symbol = "fnl "
+disabled = true
 
 [fossil_branch]
 symbol = "fossil "
+disabled = true
 
 [gcloud]
 symbol = "gcp "
+disabled = true
 
 [git_branch]
 symbol = "git "
+disabled = true
 
 [gleam]
 symbol = "gleam "
+disabled = true
 
 [golang]
 symbol = "go "
+disabled = true
 
 [gradle]
 symbol = "gradle "
+disabled = true
 
 [guix_shell]
 symbol = "guix "
+disabled = true
 
 [hg_branch]
 symbol = "hg "
+disabled = true
 
 [java]
 symbol = "java "
+disabled = true
 
 [julia]
 symbol = "jl "
+disabled = true
 
 [kotlin]
 symbol = "kt "
+disabled = true
 
 [lua]
 symbol = "lua "
+disabled = true
 
 [nodejs]
 symbol = "nodejs "
+disabled = true
 
 [memory_usage]
 symbol = "memory "
+disabled = true
 
 [meson]
 symbol = "meson "
+disabled = true
 
 [nats]
 symbol = "nats "
+disabled = true
 
 [nim]
 symbol = "nim "
+disabled = true
 
 [nix_shell]
 symbol = "nix "
+disabled = true
 
 [ocaml]
 symbol = "ml "
+disabled = true
 
 [opa]
 symbol = "opa "
+disabled = true
 
 [os.symbols]
 AIX = "aix "
@@ -177,60 +216,80 @@ Windows = "win "
 
 [package]
 symbol = "pkg "
+disabled = true
 
 [perl]
 symbol = "pl "
+disabled = true
 
 [php]
 symbol = "php "
+disabled = true
 
 [pijul_channel]
 symbol = "pijul "
+disabled = true
 
 [pulumi]
 symbol = "pulumi "
+disabled = true
 
 [purescript]
 symbol = "purs "
+disabled = true
 
 [python]
 symbol = "py "
+disabled = true
 
 [quarto]
 symbol = "quarto "
+disabled = true
 
 [raku]
 symbol = "raku "
+disabled = true
 
 [ruby]
 symbol = "rb "
+disabled = true
 
 [rust]
 symbol = "rs "
+disabled = true
 
 [scala]
 symbol = "scala "
+disabled = true
 
 [spack]
 symbol = "spack "
+disabled = true
 
 [solidity]
 symbol = "solidity "
+disabled = true
 
 [status]
 symbol = "[x](bold red) "
+disabled = true
 
 [sudo]
 symbol = "sudo "
+disabled = true
 
 [swift]
 symbol = "swift "
+disabled = true
 
 [typst]
 symbol = "typst "
+disabled = true
 
 [terraform]
 symbol = "terraform "
+disabled = true
 
 [zig]
 symbol = "zig "
+disabled = true
