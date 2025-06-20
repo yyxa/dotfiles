@@ -55,6 +55,8 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 alias hr='hyprctl reload'
 
+alias vpn='cd ~/dotfiles && make vpn'
+
 alias ls="eza"
 alias v='nvim'
 alias vi='nvim'
@@ -67,7 +69,6 @@ alias ya="yandex-browser --ozone-platform=wayland"
 alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama --impure"
 alias gnu-stow="stow -v -t ~ -d ~/dotfiles ."
 
-alias cat='bat'
 alias fast='kitten icat -n --align left ~/dotfiles/images/frieren_5_6_3.gif | fastfetch --raw -'
 alias zshrc='nvim ~/.zshrc'
 alias reload='source ~/.zshrc'

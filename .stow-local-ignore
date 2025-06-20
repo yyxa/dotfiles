@@ -6,3 +6,6 @@ images
 .git
 .gitignore
 README.md
+
+drama.ovpn
+makefile

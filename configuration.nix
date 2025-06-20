@@ -90,9 +90,10 @@
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
+    # wlr.enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
     ];
   };
 
@@ -283,6 +284,10 @@
     # home-manager
     stow
     eww
+    openvpn
+
+    wl-clipboard
+    cliphist
 
     (flameshot.overrideAttrs (old: {
       cmakeFlags = old.cmakeFlags ++ ["-DUSE_WAYLAND_GRIM=ON"];
