@@ -116,6 +116,9 @@
   };
 
   fonts.packages = with pkgs; [
+    material-symbols
+    noto-fonts
+    noto-fonts-emoji
     nerdfonts
     font-awesome
     liberation_ttf
@@ -150,11 +153,15 @@
     ];
   };
 
+  qt.enable = true;
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     inputs.yandex-browser.packages.${pkgs.system}.yandex-browser-stable
+    inputs.quickshell.packages.${pkgs.system}.default
+
     hiddify-app
     #libappindicator-gtk3
     #gnomeExtensions.topicons-plus
@@ -258,7 +265,7 @@
     wine
     winetricks
     virtualbox
-    code-cursor
+    # code-cursor
     lmms
     nodejs_18
     ffmpeg
@@ -288,6 +295,8 @@
 
     wl-clipboard
     cliphist
+
+    qt6.qtquick3d
 
     (flameshot.overrideAttrs (old: {
       cmakeFlags = old.cmakeFlags ++ ["-DUSE_WAYLAND_GRIM=ON"];
