@@ -35,7 +35,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                color: Colours.palette.m3surfaceContainer
+                color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
                 radius: Appearance.rounding.normal
 
                 Details {}
@@ -45,7 +45,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: buttons.implicitHeight
 
-                color: Colours.palette.m3surfaceContainer
+                color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
                 radius: Appearance.rounding.normal
 
                 Buttons {

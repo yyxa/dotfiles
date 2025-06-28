@@ -29,7 +29,7 @@ Item {
 
         implicitWidth: view.implicitWidth
 
-        color: Colours.palette.m3surfaceContainer
+        color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
         radius: Appearance.rounding.small
 
         Loader {

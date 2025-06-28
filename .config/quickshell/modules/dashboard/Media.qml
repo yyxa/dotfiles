@@ -122,7 +122,7 @@ Item {
         implicitWidth: Config.dashboard.sizes.mediaCoverArtSize
         implicitHeight: Config.dashboard.sizes.mediaCoverArtSize
 
-        color: Colours.palette.m3surfaceContainerHigh
+        color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
         radius: Appearance.rounding.full
 
         MaterialIcon {
@@ -254,7 +254,7 @@ Item {
 
                     implicitWidth: parent.width - slider.handle.x - slider.handle.implicitWidth - slider.implicitHeight / 6
 
-                    color: Colours.palette.m3surfaceContainer
+                    color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
                     radius: Appearance.rounding.full
                     topLeftRadius: slider.implicitHeight / 15
                     bottomLeftRadius: slider.implicitHeight / 15

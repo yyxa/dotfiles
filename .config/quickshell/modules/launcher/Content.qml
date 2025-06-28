@@ -42,7 +42,7 @@ Item {
     StyledRect {
         id: searchWrapper
 
-        color: Colours.alpha(Colours.palette.m3surfaceContainer, true)
+        color: Colours.alpha(Colours.palette.m3surfaceContainer, false)
         radius: Appearance.rounding.full
 
         anchors.left: parent.left
