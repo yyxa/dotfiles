@@ -57,26 +57,15 @@ alias hr='hyprctl reload'
 
 alias vpn='cd ~/dotfiles && make vpn'
 
-alias ls="eza"
-alias v='nvim'
-alias vi='nvim'
-alias vim='nvim'
-alias c='clear'
-alias obsi="obsidian --ozone-platform=wayland"
-alias code="code --ozone-platform=wayland"
-alias ya="yandex-browser --ozone-platform=wayland"
+alias restart-vxwm='pkill -x vxwm'
 
-alias nrs="sudo nixos-rebuild switch --flake /home/drama/dotfiles#drama --impure"
+alias nrs="sudo nixos-rebuild switch --flake /home/yyxa/dotfiles/nix-config#yyxa --impure"
 alias gnu-stow="stow -v -t ~ -d ~/dotfiles ."
 
 alias fast='kitten icat -n --align left ~/dotfiles/images/frieren_5_6_3.gif | fastfetch --raw -'
-alias zshrc='nvim ~/.zshrc'
 alias reload='source ~/.zshrc'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias ~='cd ~'
-alias vinix='sudo nvim /home/drama/dotfiles/configuration.nix'
+
+alias vinix='sudo nvim /home/yyxa/dotfiles/configuration.nix'
 alias icat="kitten icat"
 alias lock="~/.config/scripts/lockscreen.sh"
 alias mur="appimage-run ~/Murglar.appimage"
@@ -85,11 +74,12 @@ cpfile() {
 }
 
 eval "$(starship init zsh)"
-eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
+# eval "$(fzf --zsh)"
+# eval "$(zoxide init --cmd cd zsh)"
 
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[3;5~" kill-word
 bindkey "^H" backward-kill-word
 
+# feh --bg-scale /home/yyxa/dotfiles/images/1.jpg

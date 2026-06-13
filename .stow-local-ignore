@@ -1,7 +1,4 @@
-configuration.nix
-hardware-configuration.nix
-flake.nix
-flake.lock
+nix-config
 images
 .git
 .gitignore
@@ -9,3 +6,5 @@ README.md
 
 drama.ovpn
 makefile
+
+new

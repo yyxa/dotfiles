@@ -1,29 +1,30 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    yandex-browser = {
-      url = "github:miuirussia/yandex-browser.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    murglar-nix = {
-      url = "path:/home/yyxa/projects/murglar-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # murglar-nix = {
+    #   url = "path:/home/yyxa/projects/murglar-nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     #quickshell = {
     #  url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
     #  inputs.nixpkgs.follows = "nixpkgs";
     #};
 
-    android-nixpkgs.url = "github:tadfisher/android-nixpkgs";
+    # android-nixpkgs.url = "github:tadfisher/android-nixpkgs";
   };
 
-  outputs = { self, nixpkgs, yandex-browser, murglar-nix, android-nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      # config = {
+      #   allowUnfree = true;
+      #   android_sdk.accept_license = true;
+      # };
+    };
   in {
     nixosConfigurations.yyxa = nixpkgs.lib.nixosSystem {
       inherit system;
@@ -34,11 +35,11 @@
       specialArgs = { inherit inputs; };
     };
 
-    devShells.${system} = {
-      rust = import ./shells/rust.nix { inherit pkgs; };
-      cpp = import ./shells/cpp.nix { inherit pkgs; };
-      python = import ./shells/python.nix { inherit pkgs; };
-      murglar-android = import ./shells/murglar-android.nix { inherit pkgs; };
-    };
+    # devShells.${system} = {
+    #   rust = import ./shells/rust.nix { inherit pkgs; };
+    #   cpp = import ./shells/cpp.nix { inherit pkgs; };
+    #   python = import ./shells/python.nix { inherit pkgs; };
+    #   murglar-android = import ./shells/murglar-android.nix { inherit pkgs; };
+    # };
   };
 }
