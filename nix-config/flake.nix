@@ -2,10 +2,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
-    # murglar-nix = {
-    #   url = "path:/home/yyxa/projects/murglar-nix";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    murglar-nix = {
+      url = "github:yyxa/murglar-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     #quickshell = {
     #  url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
@@ -15,7 +15,7 @@
     # android-nixpkgs.url = "github:tadfisher/android-nixpkgs";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, murglar-nix, ... }@inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs {

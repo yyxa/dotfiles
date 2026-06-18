@@ -91,9 +91,9 @@ static const int refreshrate = 360;  /* refresh rate (per second) for client mov
 #endif //LOCK_MOVE_RESIZE_REFRESH_RATE
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-  { "><>",      NULL },    /* no layout function means floating behavior */
+  { "[M]",      monocle },
 	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
+  { "><>",      NULL },    /* no layout function means floating behavior */
 };
 
 /* key definitions */
@@ -115,13 +115,12 @@ static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", normbgco
 
 static const char *termcmd[]  = { "kitty", NULL };
 
-static const char *rofi_drun[] = { "rofi", "-show", "drun", NULL };
+static const char *rofi_drun[] = { "rofi", "-show", "drun", "-dpi", "200", NULL };
 
 static const Key keys[] = {
-  { ControlMask,                  XK_space,  spawn,          {.v = rofi_drun } },  // SUPER + D открыть приложения
+  { ControlMask,                  XK_space,  spawn,          {.v = rofi_drun } },
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-  { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+  { MODKEY,                       XK_q,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -131,7 +130,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, swapmaster,     {0} },
 	{ MODKEY,                       XK_0,      view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY          ,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },

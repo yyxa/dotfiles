@@ -55,9 +55,8 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 alias hr='hyprctl reload'
 
-alias vpn='cd ~/dotfiles && make vpn'
-
-alias restart-vxwm='pkill -x vxwm'
+alias vpnon='cd ~/dotfiles && make conn'
+alias vpnoff='cd ~/dotfiles && make disconn'
 
 alias nrs="sudo nixos-rebuild switch --flake /home/yyxa/dotfiles/nix-config#yyxa --impure"
 alias gnu-stow="stow -v -t ~ -d ~/dotfiles ."

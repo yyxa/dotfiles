@@ -1,10 +1,8 @@
 { config, lib, pkgs, inputs, ... }:
-
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   boot.loader = {
     grub = {
@@ -13,7 +11,6 @@
       efiSupport = true;
       useOSProber = true;
     };
-
     efi = {
       efiSysMountPoint = "/boot";
       canTouchEfiVariables = true;
@@ -46,7 +43,7 @@
   
   users.users.yyxa = {
     isNormalUser = true;
-    extraGroups = [  "networkmanager" "wheel" "input" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "input" "docker" ];
     packages = with pkgs; [];
     initialPassword = "1850";
   };
@@ -59,21 +56,13 @@
   
   hardware.bluetooth.enable = true;
 
-  services = {
-    # displayManager.autoLogin = {
-    #   enable = true;
-    #   user = "yyxa";
-    # };
+  services.resolved.enable = true;
+  networking.resolvconf.enable = false;
 
+  services = {
     getty = {
       autologinUser = "yyxa";
     };
-
-    # displayManager.sddm = {
-      # enable = true;
-      # enable = false;
-      # wayland.enable = true;
-    # };
 
     xserver = {
       enable = true;
@@ -82,11 +71,11 @@
         layout = "us,ru";
         options = "grp:win_space_toggle";
       };
-      dpi = 200;
-      libinput.enable = true;
-      libinput.touchpad.naturalScrolling = true;
-      libinput.mouse.naturalScrolling = false;
+      dpi = 200;  # 14" 2880x1800
     };
+    libinput.enable = true;
+    libinput.touchpad.naturalScrolling = true;
+    libinput.mouse.naturalScrolling = false;
 
     blueman.enable = true;
 
@@ -98,88 +87,45 @@
     };
 
     dbus.enable = true;
-
-    #greetd = {
-    #  enable = true;
-    #  settings.default_session = {
-    #    command = "Hyprland";
-    #    user = "yyxa";
-    #  };
-    #};
-
     udisks2.enable = true;
-
-    # flatpak.enable = true;
-
-    # printing = {
-    #   enable = true;
-    #   drivers = with pkgs; [
-    #     gutenprint
-    #     canon-cups-ufr2
-    #   ];
-    # };
   };
-
-  # system.activationScripts.flatpakRepos.text = ''
-  #   ${pkgs.flatpak}/bin/flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-  # '';
 
   fonts.packages = with pkgs; [
     material-symbols
     noto-fonts
-    #noto-fonts-emoji
-    #nerdfonts
     font-awesome
     liberation_ttf
   ];
 
-  # xdg.portal = {
-  #   enable = true;
-    # wlr.enable = true;
-    # extraPortals = [
-    #   pkgs.xdg-desktop-portal-gtk
-      # pkgs.xdg-desktop-portal-hyprland
-  #   ];
-  # };
-
-  # qt.enable = true;
-
   programs = {
-    # hyprland = {
-    #   enable = true;
-    #   xwayland.enable = true;
-    # };
-
     firefox.enable = true;
-
     zsh = {
       enable = true;
       enableCompletion = true;
-      #autosuggestions.enable = true;
-      #syntaxHighlighting.enable = true;
-      #ohMyZsh = {
-      #  enable = true;
-      #  plugins = [
-      #    "git"
-      #    "thefuck"
-      #  ];
-      #};
+    };
+
+    openvpn3.enable = true;
+
+    neovim = {
+      enable = true;
+      defaultEditor = true;
     };
   };
 
   virtualisation.docker.enable = true;
 
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.variables = {
+    XCURSOR_SIZE = "48";
+    XCURSOR_THEME = "Bibata-Modern-Classic";
+  };
+
   environment.systemPackages = with pkgs; [
     vivaldi
     telegram-desktop
     obsidian
     flameshot
-    quickshell
     nemo
-    git
     bibata-cursors
-    neovim
     wget
     curl
     firefox
@@ -202,7 +148,6 @@
     udisks2
     ffmpeg
     stow
-    openvpn
     wl-clipboard
     cliphist
     openssl
@@ -214,102 +159,44 @@
     feh
     rofi
 
-    # inputs.murglar-nix.packages.x86_64-linux.default
-    # discord
-    #hiddify-app
-    #libappindicator-gtk3
-    #gnomeExtensions.topicons-plus
-    # bashInteractive
-    # xorg.xhost
-    #nekoray
-    # libnotify    
-    # zoxide
-    # eza
-    # fzf
-    # git-lfs
-    # rustup
-    # rustc
-    # vesktop
-    #postman
-    # zoom-us
-    # stellarium
-    # rustdesk
-    # anydesk
-    # jq
-    # libinput-gestures
-    # swaylock-effects
-    # hypridle
-    # hyprland
-    # hyprpaper
-    # xdg-desktop-portal-gtk
-    # xdg-desktop-portal-hyprland
-    # slurp
-    # grim
-    # xwayland
-    # waybar
-    # pywal
-    # hyprpicker
-    # swaynotificationcenter
-    # mako
-    # playerctl
-    # iw
-    # wpa_supplicant
-    # bat
-    # pipx
-    # doxygen
-    #oh-my-zsh
-    # yazi
-    # obs-studio
-    #thefuck
-    # unzip
-    #python310
-    #python310Packages.ipykernel
-    #python310Packages.pip
-    # python310Packages.notebook
-    #python310Packages.virtualenv
-    # python310Packages.pandas
-    # python310Packages.numpy
-    # python310Packages.torch
-    # python310Packages.torchvision
-    # jupyter
-    # awscli2
-    # gcc
-    # stdenv.cc.cc.lib
-    # libGL
-    # mesa
-    #ngrok
-    #python310Packages.conda
-    # pkg-config
-    # dive
-    # wine
-    # winetricks
-    # virtualbox
-    # code-cursor
-    #nodejs_18
-    # gtk2
-    # gdb
-    # fftw
-    # opencv
-    # libpulseaudio
-    # xorg.libX11
-    # xorg.libXrandr
-    # xorg.libXinerama
-    # xorg.libXcursor
-    # xorg.libXi
-    #mesa.dev
-    # ctop
-    # gdb
-    #modrinth-app
-    # jdk21
-    # imagemagick
-    # home-manager
-    # eww
-    # qt6.qtquick3d
-    #(flameshot.overrideAttrs (old: {
-    #  cmakeFlags = old.cmakeFlags ++ ["-DUSE_WAYLAND_GRIM=ON"];
-    #}))
+    v2raya
+    openvpn3
+
+    neovim
+    ripgrep
+    fd
+    git
+    gcc                 # для treesitter (очень важен)
+
+    # # === LSP-сервера ===
+    # pyright             # Python
+    # rust-analyzer       # Rust
+    # gopls               # Golang
+    # nil                 # Nix (полезно)
+    # lua-language-server # Lua
+
+    # # Web / JS / Frontend
+    # typescript-language-server
+    # vscode-langservers-extracted  # HTML, CSS, JSON
+
+    # # Другие
+    # yaml-language-server
+    # dockerfile-language-server
+    # taplo               # TOML
+    # shellcheck          # Shell (линтер)
+    # bash-language-server # Shell LSP
+
+    # # Форматтеры / доп. инструменты
+    # stylua              # Lua
+    # nixfmt    # Nix
+    # black               # Python formatter
+    # ruff                # Python fast linter
+    # go-tools            # Golang extras
+
+    inputs.murglar-nix.packages.x86_64-linux.default
 
     xinit
+
     (stdenv.mkDerivation rec {
       name = "vxwm";
       src = pkgs.fetchgit {
@@ -317,17 +204,14 @@
         rev = "refs/heads/main";
         sha256 = "sha256-NPLOPeJceAqdRXOLb8mOLO9IbSHjD/ecMniIttxWBIg=";
       };
-
       prePatch = ''
         cp ${/home/yyxa/dotfiles/vxwm/config.def.h} config.def.h
+        cp ${/home/yyxa/dotfiles/vxwm/modules.def.h} modules.def.h
       '';
-
       buildInputs = with pkgs; [ libx11 libxft libxinerama ];
       makeFlags = [ "PREFIX=$(out)" ];
     })
-
   ];
 
   system.stateVersion = "25.11";
 }
-
