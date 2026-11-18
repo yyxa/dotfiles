@@ -82,3 +82,5 @@ bindkey "^[[3;5~" kill-word
 bindkey "^H" backward-kill-word
 
 # feh --bg-scale /home/yyxa/dotfiles/images/1.jpg
+
+alias pi='FREELLMAPI_KEY=$(gopass show -o secrets/freellmapi) command pi'

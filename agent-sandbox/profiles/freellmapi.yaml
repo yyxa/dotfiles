@@ -1,0 +1,36 @@
+id: freellmapi
+display_name: FreeLLMAPI (local)
+description: Host-local OpenAI-compatible router
+category: inference
+inference_capable: true
+
+credentials:
+  - name: api_key
+    description: FreeLLMAPI key
+    env_vars:
+      - FREELLMAPI_KEY
+    required: true
+    auth_style: bearer
+    header_name: authorization
+
+discovery:
+  credentials:
+    - api_key
+
+endpoints:
+  - host: host.openshell.internal
+    port: 3001
+    protocol: rest
+    enforcement: enforce
+    allowed_ips:
+      - 172.17.0.1/32
+    rules:
+      - allow:
+          method: GET
+          path: /v1/**
+      - allow:
+          method: POST
+          path: /v1/**
+
+binaries:
+  - /usr/local/bin/node

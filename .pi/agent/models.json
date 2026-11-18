@@ -1,0 +1,15 @@
+{
+  "$schema": "https://pi.dev/schemas/models.schema.json",
+  "providers": {
+    "free-llm-api": {
+      "baseUrl": "http://localhost:3001/v1",
+      "api": "openai-completions",
+      "discoverModels": true,
+      "name": "FreeLLMAPI",
+      "apiKey": "$FREELLMAPI_KEY",
+      "models": [
+        { "id": "auto", "name": "auto (select by FreeLLMAPI)" }
+      ]
+    }
+  }
+}
