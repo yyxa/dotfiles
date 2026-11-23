@@ -1,6 +1,5 @@
 {
   "packages": [
-    "npm:socratic-method",
     "npm:pi-spec",
     "npm:pi-permission-suite",
     "npm:pi-delegation-policy",
@@ -19,18 +18,33 @@
     "npm:@dietrichgebert/ponytail",
     "npm:not-enough-retry",
     "npm:pi-package-search",
-    "npm:pi-models-discovery"
+    "npm:pi-models-discovery",
+    "git:github.com/microsoft/TokenEconomizer"
   ],
-  "lastChangelogVersion": "1.5.2",
+  "lastChangelogVersion": "1.6.0",
   "extensions": [
     "-builtin:mcp"
   ],
   "extensionChangelogVersions": {
-    "{\"source\":\"npm:pi-delegation-policy\",\"scope\":\"user\"}": "0.26.0",
-    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.47.0",
-    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.88.1",
+    "{\"source\":\"npm:pi-delegation-policy\",\"scope\":\"user\"}": "0.31.1",
+    "{\"source\":\"npm:pi-web-access\",\"scope\":\"user\"}": "0.48.0",
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.89.1",
     "{\"source\":\"npm:bigpowers\",\"scope\":\"user\"}": "2.96.1",
-    "{\"source\":\"npm:pi-anywhere\",\"scope\":\"user\"}": "0.6.0"
+    "{\"source\":\"npm:pi-anywhere\",\"scope\":\"user\"}": "0.6.0",
+    "{\"source\":\"npm:pi-thinking-steps\",\"scope\":\"user\"}": "1.3.0"
   },
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "enableSkillCommands": true,
+  "showHardwareCursor": false,
+  "transport": "auto",
+  "markdown": {
+    "mermaid": "streaming"
+  },
+  "showCacheMissNotices": false,
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
+  "defaultProjectTrust": "always",
+  "doubleEscapeAction": "tree",
+  "tuiMode": "fullscreen",
+  "theme": "dark"
 }

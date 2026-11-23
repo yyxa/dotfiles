@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "vitaecontext": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "vitaecontext",
+        "mcp"
+      ]
+    }
+  }
+}
