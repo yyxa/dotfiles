@@ -1,0 +1,27 @@
+id: forgejo
+display_name: Forgejo (local, fetch only)
+description: Local git forge — clone and fetch, push denied
+category: source_control
+
+credentials:
+  - name: api_token
+    description: Forgejo access token
+    env_vars: [FORGEJO_TOKEN]
+    required: true
+    auth_style: bearer
+    header_name: authorization
+
+discovery:
+  credentials: [api_token]
+
+endpoints:
+  - host: host.openshell.internal
+    port: 3000
+    protocol: rest
+    enforcement: enforce
+    allowed_ips: [172.17.0.1/32]
+    rules:
+      - allow: { method: GET,  path: "/yyxa/X.git/**" }
+      - allow: { method: POST, path: "/yyxa/X.git/git-upload-pack" }
+
+binaries: [/usr/bin/git]

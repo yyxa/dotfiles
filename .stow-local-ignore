@@ -3,8 +3,7 @@ images
 .git
 .gitignore
 README.md
+.qlty
+mise.toml
 
-drama.ovpn
-makefile
 vxwm
-ovpn-session.txt

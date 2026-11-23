@@ -1,0 +1,192 @@
+[tools]
+node = "24.11.0"
+"npm:@earendil-works/pi-coding-agent" = "1.2.3"
+
+[env]
+NAME = "pi"
+IMAGE = "pi-agent:local"
+POLICY = "pi.yaml"
+PROVIDER = "freellmapi"
+PROFILE_ID = "freellmapi"
+PROFILE = "profiles/freellmapi.yaml"
+GOPASS_KEY = "secrets/freellmapi"
+NODE_REGISTRY = "public.ecr.aws/docker/library/node"
+NODE_VARIANT = "bookworm-slim"
+UBUNTU_IMAGE = "public.ecr.aws/docker/library/ubuntu:24.04"
+GW_CFG = "{{env.HOME}}/.config/openshell/gateway.toml"
+
+# ---------- диагностика ----------
+
+[tasks.status]
+description = "статус гейтвея и сэндбокса"
+run = ["openshell status", "openshell sandbox get $NAME || true"]
+
+[tasks.doctor]
+description = "проверка рантайма"
+run = "openshell doctor check"
+
+[tasks.list]
+description = "все сэндбоксы"
+run = "openshell sandbox list"
+
+# ---------- образ ----------
+
+[tasks.image]
+description = "собрать образ pi (версии из [tools])"
+run = '''
+NODE_V=$(sed -n 's/^node *= *"\([^"]*\)".*/\1/p' mise.toml)
+PI_V=$(sed -n 's|^"npm:@earendil-works/pi-coding-agent"[[:space:]]*=[[:space:]]*"\([^"]*\)".*|\1|p' mise.toml)
+echo "node=$NODE_V pi=$PI_V"
+docker build \
+  --build-arg NODE_IMAGE="$NODE_REGISTRY:$NODE_V-$NODE_VARIANT" \
+  --build-arg PI_VERSION="$PI_V" \
+  -t "$IMAGE" -f dockerfile.pi .
+'''
+
+[tasks.rebuild]
+description = "собрать образ без кэша"
+run = '''
+NODE_V=$(sed -n 's/^node *= *"\([^"]*\)".*/\1/p' mise.toml)
+PI_V=$(sed -n 's|^"npm:@earendil-works/pi-coding-agent"[[:space:]]*=[[:space:]]*"\([^"]*\)".*|\1|p' mise.toml)
+docker build --no-cache \
+  --build-arg NODE_IMAGE="$NODE_REGISTRY:$NODE_V-$NODE_VARIANT" \
+  --build-arg PI_VERSION="$PI_V" \
+  -t "$IMAGE" -f dockerfile.pi .
+'''
+
+# ---------- профили и провайдер ----------
+
+[tasks.profiles]
+description = "импортировать профиль, если его ещё нет"
+run = '''
+if openshell profile describe "$PROFILE_ID" >/dev/null 2>&1; then
+  echo "профиль $PROFILE_ID уже есть; правил файл — mise run profiles-replace"
+else
+  openshell profile lint -f "$PROFILE"
+  openshell profile import -f "$PROFILE"
+fi
+'''
+
+[tasks.profiles-replace]
+description = "заменить профиль (delete + import)"
+run = [
+  "openshell profile lint -f $PROFILE",
+  "openshell profile delete $PROFILE_ID || true",
+  "openshell profile import -f $PROFILE",
+]
+
+[tasks.provider]
+description = "создать или обновить провайдер ключом из gopass"
+run = '''
+export FREELLMAPI_KEY="$(gopass show -o "$GOPASS_KEY")"
+openshell provider create --name "$PROVIDER" --type "$PROFILE_ID" --from-existing 2>/dev/null \
+  || openshell provider update "$PROVIDER" --credential FREELLMAPI_KEY --wait
+'''
+
+# ---------- жизненный цикл ----------
+
+[tasks.create]
+description = "создать сэндбокс (detached)"
+run = "openshell sandbox create --name $NAME --from $IMAGE --provider $PROVIDER --policy $POLICY --detach"
+
+[tasks.delete]
+description = "удалить сэндбокс (workspace теряется)"
+run = "openshell sandbox delete $NAME || true"
+
+[tasks.recreate]
+description = "пересоздать — нужно для смены filesystem/landlock"
+run = ["mise run delete", "mise run create"]
+
+[tasks.stop]
+description = "остановить, сохранив workspace"
+run = "openshell sandbox stop $NAME"
+
+[tasks.start]
+description = "запустить остановленный"
+run = "openshell sandbox start $NAME"
+
+[tasks.up]
+description = "всё с нуля: образ → профиль → провайдер → сэндбокс"
+depends = ["image", "profiles", "provider"]
+run = "mise run create"
+
+# ---------- работа ----------
+
+[tasks.pi]
+description = "запустить pi внутри сэндбокса"
+run = "openshell sandbox exec --tty --name $NAME -- pi"
+
+[tasks.shell]
+description = "новый bash внутри сэндбокса"
+run = "openshell sandbox exec --tty --name $NAME -- bash -l"
+
+[tasks.attach]
+description = "подключиться к основному процессу"
+run = "openshell sandbox connect $NAME"
+
+[tasks.logs]
+description = "стрим логов политики"
+run = "openshell logs $NAME --tail --source sandbox"
+
+[tasks.policy]
+description = "применить политику на живом сэндбоксе (только сеть)"
+run = [
+  "openshell policy set $NAME --policy $POLICY --wait",
+  "echo 'filesystem/landlock/process статичны — для них mise run recreate'",
+]
+
+# ---------- проверки ----------
+
+[tasks.check]
+description = "четыре проверки: политика, инференс, npm, deny"
+run = '''
+echo "=== политика ==="
+openshell policy get "$NAME" --full | grep -E 'compatibility|_provider_|npm|host:' || true
+echo "=== инференс (ждём 200) ==="
+openshell sandbox exec "$NAME" -- node -e 'fetch("http://host.openshell.internal:3001/v1/models",{headers:{Authorization:"Bearer "+process.env.FREELLMAPI_KEY}}).then(r=>console.log("status",r.status)).catch(e=>console.log("FAIL",e.message))'
+echo "=== npm scoped (ждём версию) ==="
+openshell sandbox exec "$NAME" -- npm view @types/node version --no-audit
+echo "=== deny (ждём DENIED) ==="
+openshell sandbox exec "$NAME" -- node -e 'fetch("https://example.com").then(r=>console.log("LEAK",r.status)).catch(e=>console.log("DENIED",e.message))'
+'''
+
+[tasks.versions]
+description = "сверить версии: хост vs образ"
+run = '''
+echo "--- mise.toml ---"
+grep -E '^node|pi-coding-agent' mise.toml
+echo "--- host ---"
+node --version
+pi --version 2>/dev/null || echo "pi не установлен локально (не обязательно)"
+echo "--- image ---"
+docker run --rm "$IMAGE" node --version
+docker run --rm "$IMAGE" pi --version
+'''
+
+# ---------- гейтвей ----------
+
+[tasks.gateway-config]
+description = "сгенерировать gateway.toml из шаблона и перезапустить"
+run = '''
+cp "$GW_CFG" "$GW_CFG.bak" 2>/dev/null || true
+envsubst '${UBUNTU_IMAGE}' < gateway.toml.tpl > "$GW_CFG"
+openshell-gateway config preflight --path "$GW_CFG"
+systemctl --user restart openshell-gateway
+sleep 10
+openshell status
+'''
+
+[tasks.gateway]
+description = "перезапустить гейтвей"
+run = [
+  "openshell-gateway config preflight --path $GW_CFG",
+  "systemctl --user restart openshell-gateway",
+  "sleep 10",
+  "openshell status",
+]
+
+# ---------- уборка ----------
+
+[tasks.clean]
+description = "удалить сэндбокс и образ"
+run = ["mise run delete", "docker image rm $IMAGE || true"]

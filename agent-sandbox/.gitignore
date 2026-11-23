@@ -2,3 +2,5 @@
 *.pem
 .env
 auth.json
+mise.local.toml
+.mise/local/

@@ -83,4 +83,12 @@ bindkey "^H" backward-kill-word
 
 # feh --bg-scale /home/yyxa/dotfiles/images/1.jpg
 
-alias pi='FREELLMAPI_KEY=$(gopass show -o secrets/freellmapi) command pi'
+# alias pi='FREELLMAPI_KEY=$(gopass show -o secrets/freellmapi) command pi'
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+test -f "$HOME/.xmake/profile" && source "$HOME/.xmake/profile"
+
+export GPG_TTY=$(tty)
